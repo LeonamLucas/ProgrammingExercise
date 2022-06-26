@@ -9,7 +9,6 @@
 
         public string endPointSerialNumber { get; private set; }
 
-
         public Endpoint(Model modelId, State switchState, int meterNumber, string firmwareVersion, string endPointSerialNumber)
         {
             this.modelId = modelId;

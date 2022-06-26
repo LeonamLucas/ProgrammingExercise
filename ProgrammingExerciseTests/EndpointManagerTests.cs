@@ -6,7 +6,7 @@ namespace ProgrammingExerciseTests
     public class EndpointManagerTests
     {
         [TestMethod]
-        public void addEndPoint_ValidParameters_NewEndpointInHashset()
+        public void addEndPoint_ValidParameters_NewEndpointInHashset() //Confirms if a new endpoint can be found in the HashSet
         {
             //Arrange
             EndpointManager manager = new EndpointManager();
@@ -19,20 +19,17 @@ namespace ProgrammingExerciseTests
         }
 
         [TestMethod]
-        public void verifySerial_InvalidParameters_HashsetSameSize()
+        public void addEndPoint_InvalidParameters_ThrowsException() //Confirms if an exception is thrown if the serial number already exists
         {
             //Arrange
             EndpointManager manager = new EndpointManager();
 
-            //Act
-            bool result = manager.verifySerial("a2");
-
-            //Assert
-            Assert.IsTrue(result);
+            //Act and Assert
+            Assert.ThrowsException<EndpointException>(() => manager.addEndpoint(17, 3, 1005, "unit", "a2"));
         }
 
         [TestMethod]
-        public void deleteEndpoint_ValidSerialNumber_HashsetSmaller()
+        public void deleteEndpoint_ValidSerialNumber_HashsetSmaller() //Confirms if the HashSet is smaller after removing an endpoint
         {
             //Arrange
             EndpointManager manager = new EndpointManager();
@@ -46,7 +43,7 @@ namespace ProgrammingExerciseTests
         }
 
         [TestMethod]
-        public void deleteEndpoint_InvalidSerialNumber_HashsetSameSize()
+        public void deleteEndpoint_InvalidSerialNumber_HashsetSameSize() //Confirms if the HashSet is the same size after trying to remove an invalid endpoint
         {
             //Arrange
             EndpointManager manager = new EndpointManager();

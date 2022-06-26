@@ -1,4 +1,4 @@
-﻿using ProgrammingExercise.Entities;
+﻿using ProgrammingExercise;
 
 namespace ProgrammingExercise
 {
@@ -17,31 +17,28 @@ namespace ProgrammingExercise
             addEndpoint(17, 1, 1003, "final_2.0", "a3");
             addEndpoint(16, 2, 1004, "testing", "a4");
         }
-
-        public void addEndpoint(int modelId, int switchState, int meterNumber, string firmwareVersion, string endPointSerialNumber)
+        public void addEndpoint(int modelId, int switchState, int meterNumber, string firmwareVersion, string endPointSerialNumber) //Adds a new endpoint to the endpoints HashSet
         {
+            findSerial(endPointSerialNumber);
             endpoints.Add(new Endpoint((Model)modelId, (State)switchState, meterNumber, firmwareVersion, endPointSerialNumber));
             Console.WriteLine(endpoints.Last());
         }
         public void editEndpoint(string endPointSerialNumber, int state)
         {
-            var endpoint = endpoints.Where(e => e.endPointSerialNumber == endPointSerialNumber).SingleOrDefault(); //LINQ
+            var endpoint = endpoints.Where(e => e.endPointSerialNumber == endPointSerialNumber).SingleOrDefault(); //Finds the endpoint that matches the serial number
 
             Console.WriteLine();
-            endpoint.changeState(state);
+            endpoint.changeState(state); //Changes the switch state to the new value
             Console.WriteLine(endpoint);
-
         }
         public void deleteEndpoint(string endPointSerialNumber)
         {
-            var endpoint = endpoints.Where(e => e.endPointSerialNumber == endPointSerialNumber).SingleOrDefault(); //LINQ
+            var endpoint = endpoints.Where(e => e.endPointSerialNumber == endPointSerialNumber).SingleOrDefault(); //Finds the endpoint that matches the serial number
 
             endpoints.Remove(endpoint);
             Console.WriteLine("Endpoint deleted...");
-
-
         }
-        public void listEndpoints()
+        public void listEndpoints() //Prints all endpoints
         {
             foreach (Endpoint endpoint in endpoints)
             {
@@ -53,23 +50,22 @@ namespace ProgrammingExercise
         {
             var endpoint =
                 (from point in endpoints
-                where point.endPointSerialNumber == endPointSerialNumber
+                where point.endPointSerialNumber == endPointSerialNumber //Finds the endpoint that matches the serial number
                 select point).SingleOrDefault();
 
-            Console.WriteLine(endpoint);
-
+            Console.WriteLine(endpoint); //Prints the endpoint
         }
         
-        public bool verifySerial(string endPointSerialNumber)
+        public bool verifySerial(string endPointSerialNumber) //Returns true if the serial number exists
         {
             if (endPointSerialNumber == "")
             {
                 throw new EndpointException("Endpoint serial number can't be empty");
             }
 
-            var endpoint = endpoints.Where(e => e.endPointSerialNumber == endPointSerialNumber).SingleOrDefault();
-            
-            if(endpoint != null)
+            var endpoint = endpoints.Where(e => e.endPointSerialNumber == endPointSerialNumber).SingleOrDefault(); //Finds the endpoint that matches the serial number
+
+            if (endpoint != null)
             {
                 return true;
             }
@@ -78,15 +74,16 @@ namespace ProgrammingExercise
                 throw new EndpointException("Endpoint not found");
             }
         }
-        public bool findSerial(string endPointSerialNumber)
+        public bool findSerial(string endPointSerialNumber) //Returns true if the serial number does not exist
         {
             if (endPointSerialNumber == "")
             {
                 throw new EndpointException("Endpoint serial number can't be empty");
             }
-            var endpoint = endpoints.Where(e => e.endPointSerialNumber == endPointSerialNumber).SingleOrDefault();
-            
-            if(endpoint == null)
+
+            var endpoint = endpoints.Where(e => e.endPointSerialNumber == endPointSerialNumber).SingleOrDefault(); //Finds the endpoint that matches the serial number
+
+            if (endpoint == null)
             {
                 return true;
             }
@@ -100,12 +97,11 @@ namespace ProgrammingExercise
         {
             return endpoints.Count();
         }
-        
-
-        public void close()
+        public void close() //Changes the exit flag if confirmed
         {
             Console.WriteLine("Are you sure you want to leave? (Y - N)\n");
             char confirm = char.Parse(Console.ReadLine().ToLower());
+
             if (confirm == 'y')
             {
                 exit = true;

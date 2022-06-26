@@ -1,6 +1,6 @@
-﻿namespace ProgrammingExercise.Entities
+﻿namespace ProgrammingExercise
 {
-    class EndpointException : Exception
+    public class EndpointException : Exception
     {
         public EndpointException(string msg) : base(msg)
         {
